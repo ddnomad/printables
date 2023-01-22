@@ -1,0 +1,8 @@
+[config]
+skip_core_tasks = true
+unstable_features = ["CTRL_C_HANDLING"]
+
+[tasks.update_readme_models_table]
+script = """
+./utils/gen_models_md_table.py ./models | ./utils/replace_md_file_section.py ./README.md 'Models'
+"""
