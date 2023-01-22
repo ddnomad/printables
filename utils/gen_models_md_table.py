@@ -70,7 +70,10 @@ def main(args: argparse.Namespace):
     for model in find_models(args.models_dir_path):
         relative_model_path = './' + os.path.relpath(model.directory_path)
 
-        print(f'| {model.name} | v{model.version} | {model.description} | {relative_model_path} |')
+        print(
+            f'| {model.name} | v{model.version} | {model.description} | '
+            f'[{relative_model_path}]({relative_model_path}) |'
+        )
 
 
 if __name__ == '__main__':
