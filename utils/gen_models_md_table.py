@@ -70,8 +70,10 @@ def main(args: argparse.Namespace):
     for model in find_models(args.models_dir_path):
         relative_model_path = './' + os.path.relpath(model.directory_path)
 
+        model_name = ' '.join(word.capitalize() for word in model.name.split('_'))
+
         print(
-            f'| {model.name} | v{model.version} | {model.description} | '
+            f'| {model_name} | v{model.version} | {model.description} | '
             f'[{relative_model_path}]({relative_model_path}) |'
         )
 
