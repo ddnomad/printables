@@ -1,2 +1,2 @@
-MODEL_NAME = "dell_t420_525_bay_drive_bracket";
+MODEL_NAME = "Dell T420 5.25\" Bay Drive Bracket";
 MODEL_VERSION = "0.1.0";

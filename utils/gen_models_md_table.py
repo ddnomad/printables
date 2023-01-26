@@ -8,7 +8,7 @@ import re
 import typing as t
 
 MODEL_DESCRIPTION_RE = re.compile(r'(?:\w\s*)+\n=+\n\n?(.+)\n\n?.*', re.MULTILINE)
-MODEL_NAME_RE = re.compile(r'^\s*MODEL_NAME\s*=\s*\"([A-Za-z0-9_-]+)\"\s*;\s*$', re.MULTILINE)
+MODEL_NAME_RE = re.compile(r'^\s*MODEL_NAME\s*=\s*\"(.+)\"\s*;\s*$', re.MULTILINE)
 MODEL_VERSION_RE = re.compile(r'^\s*MODEL_VERSION\s*=\s*\"([A-Za-z0-9._-]+)\"\s*;\s*$', re.MULTILINE)
 
 OpenSCADModel = collections.namedtuple('OpenSCADModel', ['name', 'version', 'description', 'directory_path'])
@@ -41,6 +41,7 @@ def find_models(path: str) -> t.Generator[OpenSCADModel, None, None]:
         model_name = find_first(MODEL_NAME_RE, model_main_source, 1, RuntimeError(
             f'Failed to parse out model name: model_main_path: {model_main_path}'
         ))
+        model_name = model_name.replace('\\', '')
 
         model_version = find_first(MODEL_VERSION_RE, model_main_source, 1, RuntimeError(
             f'Failed to parse out model version: model_main_path: {model_main_path}'
@@ -70,10 +71,8 @@ def main(args: argparse.Namespace):
     for model in find_models(args.models_dir_path):
         relative_model_path = './' + os.path.relpath(model.directory_path)
 
-        model_name = ' '.join(word.capitalize() for word in model.name.split('_'))
-
         print(
-            f'| {model_name} | v{model.version} | {model.description} | '
+            f'| {model.name} | v{model.version} | {model.description} | '
             f'[{relative_model_path}]({relative_model_path}) |'
         )
 
