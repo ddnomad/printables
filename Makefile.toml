@@ -2,7 +2,7 @@
 skip_core_tasks = true
 unstable_features = ["CTRL_C_HANDLING"]
 
-[tasks.init]
+[tasks.init_git_hooks]
 script = """
 # NOTE: Tim Apple cognitive tax
 LN=ln; if command -v gln &> /dev/null; then LN=gln; fi
@@ -11,6 +11,10 @@ LN=ln; if command -v gln &> /dev/null; then LN=gln; fi
 """
 
 [tasks.update_readme_models_table]
-script = """
-./utils/gen_models_md_table.py ./models | ./utils/replace_md_file_section.py ./README.md 'Models'
-"""
+script = "./utils/gen_models_md_table.py ./models | ./utils/replace_md_file_section.py ./README.md 'Models'"
+
+[tasks.watch_dell_t420_525_bay_drive_bracket]
+script = "./utils/watch_in_openscad.sh ./models/dell_t420_525_bay_drive_bracket/main.scad"
+
+[tasks.watch_ikea_satsumas_pot]
+script = "./utils/watch_in_openscad.sh ./models/ikea_satsumas_pot/main.scad"

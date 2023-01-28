@@ -28,3 +28,9 @@ And the following tools are recommended:
 1. [OpenSCAD Support for VS Code](https://github.com/Leathong/openscad-support-vscode)
 2. [PyLama](https://github.com/klen/pylama)
 3. [MarkdownLint](https://github.com/DavidAnson/markdownlint)
+
+After cloning the project, run the following to integrate Git hooks:
+
+```shell
+cargo make init_git_hooks
+```
