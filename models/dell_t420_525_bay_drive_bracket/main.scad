@@ -5,17 +5,17 @@ $fn = $preview? 64 : 128;
 MODEL_NAME = "Dell T420 5.25\" Bay Drive Bracket";
 MODEL_VERSION = "0.1.0";
 
-BRACKET_DEPTH = 115;
+BRACKET_DEPTH = 127;
 BRACKET_WIDTH = 143;
 BRACKET_HEIGHT = 28;
 
+BRACKET_BASE_CUTOUT_DIAMETER = 12;
 BRACKET_BASE_PLATE_THICKNESS = 2;
-BRACKET_BASE_PLATE_CUTOUT_DEPTH_OFFSET = 8;
-BRACKET_BASE_PLATE_CUTOUT_DEPTH = 12;
-BRACKET_BASE_PLATE_CUTOUT_WIDTH = 124;
-BRACKET_BASE_PLATE_CUTOUT_WIDTH_OFFSET = 9.5;
+BRACKET_BASE_CUTOUT_WIDTH = 123;
+BRACKET_BASE_CUTOUT_DEPTH_OFFSET = 7;
 
-BRACKET_SIDE_WALL_HEIGHT = 15;
+BRACKET_SIDE_WALL_DEPTH = 115;
+BRACKET_SIDE_WALL_HEIGHT = 29;
 BRACKET_SIDE_WALL_THICKNESS = 4;
 
 BRACKET_SIDE_WALL_SCREW_HOLE_DIAMETER = 3;
@@ -32,13 +32,41 @@ module bracket_base_plate() {
             square(size=[BRACKET_WIDTH, BRACKET_DEPTH]);
 
             translate(v=[
-                BRACKET_BASE_PLATE_CUTOUT_WIDTH_OFFSET + 10/2,
-                BRACKET_BASE_PLATE_CUTOUT_DEPTH_OFFSET + 10/2,
+                (BRACKET_WIDTH - BRACKET_BASE_CUTOUT_WIDTH + BRACKET_BASE_CUTOUT_DIAMETER) / 2,
+                BRACKET_BASE_CUTOUT_DEPTH_OFFSET + BRACKET_BASE_CUTOUT_DIAMETER / 2,
                 0
             ]) {
-                minkowski() {
-                    square(size=[BRACKET_BASE_PLATE_CUTOUT_WIDTH - 10, BRACKET_BASE_PLATE_CUTOUT_DEPTH - 10]);
-                    circle(d=10);
+                hull() {
+                    circle(d=BRACKET_BASE_CUTOUT_DIAMETER);
+                    translate(v=[BRACKET_BASE_CUTOUT_WIDTH - BRACKET_BASE_CUTOUT_DIAMETER, 0, 0]) {
+                        circle(d=BRACKET_BASE_CUTOUT_DIAMETER);
+                    }
+                }
+            }
+
+            translate(v=[
+                (BRACKET_WIDTH - BRACKET_BASE_CUTOUT_WIDTH + BRACKET_BASE_CUTOUT_DIAMETER) / 2 + 35,
+                BRACKET_BASE_CUTOUT_DEPTH_OFFSET + BRACKET_BASE_CUTOUT_DIAMETER / 2,
+                0
+            ]) {
+                hull() {
+                    circle(d=BRACKET_BASE_CUTOUT_DIAMETER);
+                    translate(v=[0, 112 - BRACKET_BASE_CUTOUT_DIAMETER, 0]) {
+                        circle(d=BRACKET_BASE_CUTOUT_DIAMETER);
+                    }
+                }
+            }
+
+            translate(v=[
+                BRACKET_BASE_CUTOUT_WIDTH + BRACKET_BASE_CUTOUT_DIAMETER / 2 - 35,
+                BRACKET_BASE_CUTOUT_DEPTH_OFFSET + BRACKET_BASE_CUTOUT_DIAMETER / 2,
+                0
+            ]) {
+                hull() {
+                    circle(d=BRACKET_BASE_CUTOUT_DIAMETER);
+                    translate(v=[0, 112 - BRACKET_BASE_CUTOUT_DIAMETER, 0]) {
+                        circle(d=BRACKET_BASE_CUTOUT_DIAMETER);
+                    }
                 }
             }
         }
@@ -51,7 +79,7 @@ module bracket_side_wall() {
         rotate(a=[0, -90, 0]) {
             difference() {
                 linear_extrude(height=BRACKET_SIDE_WALL_THICKNESS) {
-                    square(size=[BRACKET_SIDE_WALL_HEIGHT, BRACKET_DEPTH]);
+                    square(size=[BRACKET_SIDE_WALL_HEIGHT, BRACKET_SIDE_WALL_DEPTH]);
                 }
 
                 translate(v=[
