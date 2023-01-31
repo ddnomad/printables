@@ -65,15 +65,15 @@ def find_models(path: str) -> t.Generator[OpenSCADModel, None, None]:
 
 def main(args: argparse.Namespace):
     """."""
-    print('| Name | Version | Description | Path |')
-    print('| ---- | ------- | ----------- | ---- |')
+    print('| Name | Version | Description | Details |')
+    print('| ---- | ------- | ----------- | ------- |')
 
     for model in find_models(args.models_dir_path):
         relative_model_path = './' + os.path.relpath(model.directory_path)
 
         print(
             f'| {model.name} | v{model.version} | {model.description} | '
-            f'[{relative_model_path}]({relative_model_path}) |'
+            f'[Details]({relative_model_path}) |'
         )
 
 

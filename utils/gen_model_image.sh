@@ -42,10 +42,10 @@ function main {
     local openscad_bin_path
     openscad_bin_path="$(get_openscad_bin_path)"
 
-    # "${openscad_bin_path}" -h #"${target_file_path}"
     "${openscad_bin_path}" \
         -o "${output_path}" \
         --autocenter \
+        --imgsize 1028,512 \
         --viewall \
         "${target_file_path}"
 }
