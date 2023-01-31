@@ -31,7 +31,7 @@ BRACKET_SIDE_WALL_SCREW_HOLE_COUNTERBORE_DIAMETER = 4;
 BRACKET_SIDE_WALL_SCREW_HOLE_DEPTH = 4;
 BRACKET_SIDE_WALL_SCREW_HOLE_COUNTERBORE_DEPTH = 1;
 
-BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_HIGHT_OFFSET = 7; // Z axis
+BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_HEIGHT_OFFSET = 7; // Z axis
 BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_1_DEPTH_OFFSET = 1; // Y axis
 BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_2_DEPTH_OFFSET = 80; // Y axis
 
@@ -111,7 +111,7 @@ module bracket_side_wall() {
                 }
 
                 translate(v=[
-                    BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_HIGHT_OFFSET,
+                    BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_HEIGHT_OFFSET,
                     BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_1_DEPTH_OFFSET,
                     0
                 ]) {
@@ -124,7 +124,7 @@ module bracket_side_wall() {
                 }
 
                 translate(v=[
-                    BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_HIGHT_OFFSET,
+                    BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_HEIGHT_OFFSET,
                     BRACKET_SIDE_WALL_MOUNTING_SCREW_HOLE_2_DEPTH_OFFSET,
                     0
                 ]) {
@@ -144,7 +144,6 @@ module bracket_side_wall() {
 module main() {
     union() {
         bracket_base_plate();
-
         bracket_side_wall();
 
         translate(v=[BRACKET_WIDTH, 0, 0]) {
@@ -152,6 +151,8 @@ module main() {
                 bracket_side_wall(); 
             }
         }
+
+
     }
 }
 
