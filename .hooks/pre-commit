@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cargo make update_readme_models_table
+function main {
+    cargo make gen_models_images
+    cargo make update_readme_models_table
+}
+
+main "$@"

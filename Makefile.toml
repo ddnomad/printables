@@ -10,6 +10,14 @@ LN=ln; if command -v gln &> /dev/null; then LN=gln; fi
 "${LN}" -srf ./.hooks/pre-commit ./.git/hooks/pre-commit
 """
 
+[tasks.gen_models_images]
+script = """
+for model_dir in ./models/*; do
+    mkdir -p "${model_dir}/.github"
+    ./utils/gen_model_image.sh "${model_dir}/main.scad" "${model_dir}/.github/model_image.png"
+done
+"""
+
 [tasks.update_readme_models_table]
 script = "./utils/gen_models_md_table.py ./models | ./utils/replace_md_file_section.py ./README.md 'Models'"
 

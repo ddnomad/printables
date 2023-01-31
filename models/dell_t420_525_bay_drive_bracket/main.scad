@@ -3,7 +3,7 @@ use <../../lib/ddscad/screw_holes.scad>
 
 include <../../lib/ddscad/drive.scad>
 
-$fn = $preview? 64 : 128;
+$fn = $preview? 32 : 128;
 
 MODEL_NAME = "Dell T420 5.25\" Bay Drive Bracket";
 MODEL_VERSION = "0.1.0";
@@ -115,7 +115,7 @@ module bracket_base_plate() {
 module bracket_drive_mounting_wall() {
     difference() {
         linear_extrude(height=BRACKET_MAXIMUM_HEIGHT - BRACKET_BASE_PLATE_HEIGHT) {
-            square([BRACKET_MOUNTING_WALL_WIDTH, SATA_SSD_25_DEPTH]);
+            square([BRACKET_MOUNTING_WALL_WIDTH, BRACKET_MOUNTING_WALL_DEPTH]);
         }
 
         for (drive_number=[0 : 2]) {
