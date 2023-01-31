@@ -12,7 +12,7 @@ BRACKET_DEPTH = 127; // Y axis
 BRACKET_HEIGHT = 28; // Z axis
 BRACKET_WIDTH = 143; // X axis
 
-BRACKET_MAXIMUM_HEIGHT = 39; // Z axis
+BRACKET_MAXIMUM_HEIGHT = 38; // Z axis
 
 BRACKET_BASE_PLATE_CUTOUT_DIAMETER = 10;
 BRACKET_BASE_PLATE_CUTOUT_DEPTH_OFFSET = 8; // Y axis
@@ -25,7 +25,11 @@ BRACKET_BASE_PLATE_DEPTH_CUTOUT_WIDTH_OFFSET = 35; // Y axis
 BRACKET_BASE_PLATE_WIDTH_CUTOUT_DEPTH = 12; // Y axis
 BRACKET_BASE_PLATE_WIDTH_CUTOUT_WIDTH = 125; // X axis
 
+BRACKET_MOUNTING_WALL_DEPTH = SATA_SSD_25_DEPTH; // X axis
 BRACKET_MOUNTING_WALL_WIDTH = 4; // X axis
+
+BRACKET_MOUNTING_WALL_DRIVE_HEIGHT_OFFSET = 4; // X axis
+BRACKET_MOUNTING_WALLS_OFFSET = SATA_SSD_25_WIDTH; // X axis
 
 BRACKET_SIDE_WALL_DEPTH = 115; // Y axis
 BRACKET_SIDE_WALL_HEIGHT = 12; // Z axis
@@ -109,8 +113,29 @@ module bracket_base_plate() {
 
 
 module bracket_drive_mounting_wall() {
-    linear_extrude(height=BRACKET_MAXIMUM_HEIGHT - BRACKET_BASE_PLATE_HEIGHT) {
-        square([BRACKET_MOUNTING_WALL_WIDTH, SATA_SSD_25_DEPTH]);
+    difference() {
+        linear_extrude(height=BRACKET_MAXIMUM_HEIGHT - BRACKET_BASE_PLATE_HEIGHT) {
+            square([BRACKET_MOUNTING_WALL_WIDTH, SATA_SSD_25_DEPTH]);
+        }
+
+        for (drive_number=[0 : 2]) {
+            for (offset=[SATA_SSD_25_BOTTOM_MOUNTING_SCREW_HOLE_1_DEPTH_OFFSET, SATA_SSD_25_BOTTOM_MOUNTING_SCREW_HOLE_2_DEPTH_OFFSET]) {
+                translate(v=[
+                    BRACKET_MOUNTING_WALL_WIDTH,
+                    offset - 1,
+                    BRACKET_MOUNTING_WALL_DRIVE_HEIGHT_OFFSET * (drive_number + 1) + SATA_SSD_25_HEIGHT * drive_number
+                ]) {
+                    rotate(a=[0, -90, 0]) {
+                        screw_hole(
+                            depth=BRACKET_MOUNTING_WALL_WIDTH,
+                            diameter=SATA_SSD_25_SIDE_MOUNTING_SCREW_HOLE_DIAMETER,
+                            counterbore_diameter=SATA_SSD_25_SIDE_MOUNTING_SCREW_HOLE_DIAMETER + 2,
+                            counterbore_depth=2
+                        );
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -121,6 +146,12 @@ module bracket_side_wall() {
             difference() {
                 linear_extrude(height=BRACKET_SIDE_WALL_WIDTH) {
                     square(size=[BRACKET_SIDE_WALL_HEIGHT, BRACKET_SIDE_WALL_DEPTH]);
+                    translate(v=[BRACKET_BASE_PLATE_HEIGHT, BRACKET_SIDE_WALL_DEPTH, 0]) {
+                        inner_corner_rounder(
+                            radius=BRACKET_SIDE_WALL_HEIGHT - BRACKET_BASE_PLATE_HEIGHT,
+                            corner_position="bottom_left"
+                        );
+                    }
                 }
 
                 translate(v=[
@@ -159,14 +190,23 @@ module main() {
         bracket_base_plate();
 
         translate(v=[
-            (BRACKET_WIDTH - (SATA_SSD_25_WIDTH + BRACKET_MOUNTING_WALL_WIDTH * 2)) / 2,
-            0,
+            (
+                BRACKET_WIDTH - 
+                (BRACKET_MOUNTING_WALLS_OFFSET + BRACKET_MOUNTING_WALL_WIDTH * 2)
+            ) / 2,
+            BRACKET_DEPTH - BRACKET_MOUNTING_WALL_DEPTH,
             BRACKET_BASE_PLATE_HEIGHT
         ]) {
             bracket_drive_mounting_wall();
 
-            translate(v=[SATA_SSD_25_WIDTH, 0, 0]) {
-                bracket_drive_mounting_wall();
+            translate(v=[
+                BRACKET_MOUNTING_WALLS_OFFSET + BRACKET_MOUNTING_WALL_WIDTH * 2,
+                0,
+                0
+            ]) {
+                mirror([1, 0, 0]) {
+                    bracket_drive_mounting_wall();
+                }
             }
         }
 
@@ -177,8 +217,6 @@ module main() {
                 bracket_side_wall(); 
             }
         }
-
-
     }
 }
 
