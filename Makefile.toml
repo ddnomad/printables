@@ -13,8 +13,8 @@ LN=ln; if command -v gln &> /dev/null; then LN=gln; fi
 [tasks.gen_models_images]
 script = """
 for model_dir in ./models/*; do
-    mkdir -p "${model_dir}/.github"
-    ./utils/gen_model_image.sh "${model_dir}/main.scad" "${model_dir}/.github/model_image.png"
+  mkdir -p "${model_dir}/.github"
+  ./utils/gen_model_image.sh "${model_dir}/main.scad" "${model_dir}/.github/model_image.png"
 done
 """
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
 function get_openscad_bin_path {
     local linux_path
     linux_path="$(command -v openscad)"
@@ -21,6 +22,7 @@ function get_openscad_bin_path {
     >&2 echo '---(X) Error: Failed to find OpenSCAD binary path: Check OpenSCAD is installed'
     exit 1
 }
+
 
 function main {
     if test "$#" -ne 2; then
@@ -49,5 +51,6 @@ function main {
         --viewall \
         "${target_file_path}"
 }
+
 
 main "$@"

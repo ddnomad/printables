@@ -1,9 +1,52 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+PROJECT_BASE_DIR="$(git rev-parse --show-toplevel)"
+readonly PROJECT_BASE_DIR
+
+readonly MODELS_DIR="${PROJECT_BASE_DIR}/models"
+readonly VALID_BRANCH_RE="^(main|(dev\/[0-9a-z_]{3,})|(release\/[0-9a-z_]{3,}\/v\d{1,}\.\d{1,}\.\d{1,}))$"
+
+
+function validate_branch_name {
+    local branch_name
+    branch_name="$(git rev-parse --abbrev-ref HEAD)"
+
+    # Check general branch name format
+    if [[ ! "${branch_name}" =~ $VALID_BRANCH_RE ]]; then
+        >&2 echo "Error: Invalid branch name: ${branch_name}"
+        >&2 echo
+        >&2 echo "Branch name must match the following regular expression:"
+        >&2 echo
+        >&2 echo -e "${VALID_BRANCH_RE}"
+
+        exit 1
+    fi
+
+    # Check whether release branch name corresponds to an existing model directory
+    if [[ "${branch_name}" == release/* ]]; then
+        local model_dir
+        model_dir="$(cut -f 2 -d '/' <<< "${branch_name}")"
+
+        if ! test -d "${MODELS_DIR}/${model_dir}"; then
+            >&2 echo "Error: Invalid branch name: ${branch_name}"
+            >&2 echo
+            >&2 echo "Release branch names must conform to the following format:"
+            >&2 echo
+            >&2 echo -e "release/<EXISTING_MODEL_DIR>/vX.X.X"
+
+            exit 1
+        fi
+    fi
+}
+
+
 function main {
+    validate_branch_name
+
     cargo make gen_models_images
     cargo make update_readme_models_table
 }
+
 
 main "$@"

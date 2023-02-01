@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
 function get_openscad_bin_path {
     local linux_path
     linux_path="$(command -v openscad)"
@@ -22,6 +23,7 @@ function get_openscad_bin_path {
     exit 1
 }
 
+
 function main {
     if test "$#" -ne 1; then
         >&2 echo 'Usage: '"$(basename "$0")"' TARGET_FILE_PATH'
@@ -41,5 +43,6 @@ function main {
 
     "${openscad_bin_path}" "${target_file_path}"
 }
+
 
 main "$@"
