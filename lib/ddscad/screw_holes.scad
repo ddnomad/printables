@@ -13,18 +13,16 @@ module screw_hole(depth, diameter, counterbore_diameter=undef, counterbore_depth
     );
 
     translate(v=[max(diameter, counterbore_diameter) / 2, max(diameter, counterbore_diameter) / 2, 0]) {
-        union() {
-            if (counterbore_diameter != undef && counterbore_depth != undef) {
-                translate(v=[0, 0, depth - counterbore_depth]) {
-                    linear_extrude(height=counterbore_depth) {
-                        circle(d=counterbore_diameter);
-                    }
+        if (counterbore_diameter != undef && counterbore_depth != undef) {
+            translate(v=[0, 0, depth - counterbore_depth]) {
+                linear_extrude(height=counterbore_depth) {
+                    circle(d=counterbore_diameter);
                 }
             }
+        }
 
-            linear_extrude(height=depth) {
-                circle(d=diameter);
-            }
+        linear_extrude(height=depth) {
+            circle(d=diameter);
         }
     }
 }
