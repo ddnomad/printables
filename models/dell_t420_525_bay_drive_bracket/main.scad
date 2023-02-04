@@ -7,12 +7,12 @@ include <../../lib/ddscad/drive.scad>
 $fn = $preview? 32 : 128;
 
 MODEL_NAME = "Dell T420 5.25\" Bay Drive Bracket";
-MODEL_VERSION = "0.1.1";
+MODEL_VERSION = "0.1.2";
 
 // NOTE: Unless specified otherwise, width -> x, depth -> y, height -> z
 BRACKET_DEPTH = 127;
 BRACKET_HEIGHT = 38;
-BRACKET_WIDTH = 145;
+BRACKET_WIDTH = 144;
 
 BRACKET_BASE_PLATE_CUTOUT_DIAMETER = 9.9;
 BRACKET_BASE_PLATE_CUTOUT_DEPTH_OFFSET = 9;
@@ -30,8 +30,8 @@ BRACKET_MOUNTING_WALL_WIDTH = 4;
 // Distance between the drives when mounted in the bracket
 BRACKET_MOUNTING_WALL_DRIVE_HEIGHT_OFFSET = 5;
 
-// Distance between drive mounting walls, additional 2mm are necessary and were added on v0.1.1
-BRACKET_MOUNTING_WALLS_OFFSET = SATA_SSD_25_WIDTH + 2;
+// Distance between drive mounting walls, additional 1mm is necessary and was added on v0.1.2
+BRACKET_MOUNTING_WALLS_OFFSET = SATA_SSD_25_WIDTH + 1;
 
 BRACKET_SIDE_WALL_HEIGHT = 12;
 BRACKET_SIDE_WALL_WIDTH = 4;

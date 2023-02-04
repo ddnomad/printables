@@ -1,6 +1,16 @@
 Changelog
 ========
 
+v0.1.2
+------
+
+Even more improved version as tolerances in v0.1.1 turned out to be either a bit too tight (bracket width) or too loose (drive mounting walls). This version was test printed multiple times and is fully ready to be used as intended.
+
+### Fixes
+
+* Reduced spacing between drive mounting walls by 1mm.
+* Decreased bracket width by 1mm (v0.1.1 is technically a perfect fit but it is quite tricky to get the bracket installed / removed from the bay)
+
 v0.1.1
 ------
 
@@ -18,6 +28,7 @@ Improved version with better tolerances and less filament required for printing.
 ### Improvements
 
 * Significantly reduced amount of filament required to print the model.
+* Reduced printing time down to around 3 hours (v0.1.0 required ~6 hours to print with a raft, which used to be necessary).
 
 ### Other
 
