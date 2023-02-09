@@ -13,16 +13,10 @@ LN=ln; if command -v gln &> /dev/null; then LN=gln; fi
 [tasks.gen_models_images]
 script = """
 for model_dir in ./models/*; do
-  mkdir -p "${model_dir}/.github"
-  ./utils/gen_model_image.sh "${model_dir}/main.scad" "${model_dir}/.github/model_image.png"
+  cargo make --cwd "${model_dir}" gen_model_images
 done
 """
 
 [tasks.update_readme_models_table]
 script = "./utils/gen_models_md_table.py ./models | ./utils/replace_md_file_section.py ./README.md 'Models'"
 
-[tasks.watch_dell_t420_525_bay_drive_bracket]
-script = "./utils/watch_in_openscad.sh ./models/dell_t420_525_bay_drive_bracket/main.scad"
-
-[tasks.watch_ikea_satsumas_pot]
-script = "./utils/watch_in_openscad.sh ./models/ikea_satsumas_pot/main.scad"
