@@ -23,17 +23,17 @@ function validate_branch_name {
         exit 1
     fi
 
-    # Check whether release branch name corresponds to an existing model directory
-    if [[ "${branch_name}" == release/* ]]; then
+    # Check whether development or release branch name corresponds to an existing model directory
+    if [[ "${branch_name}" =~ (dev|release)/* ]]; then
         local model_dir
         model_dir="$(cut -f 2 -d '/' <<< "${branch_name}")"
 
         if ! test -d "${MODELS_DIR}/${model_dir}"; then
             >&2 echo "Error: Invalid branch name: ${branch_name}"
             >&2 echo
-            >&2 echo "Release branch names must conform to the following format:"
+            >&2 echo "Development or release branch names must conform to the following format:"
             >&2 echo
-            >&2 echo -e "release/<EXISTING_MODEL_DIR>/vX.X.X"
+            >&2 echo -e "(dev|release)/<EXISTING_MODEL_DIR>/vX.X.X"
 
             exit 1
         fi
@@ -46,6 +46,9 @@ function main {
 
     cargo make gen_models_images
     cargo make update_readme_models_table
+
+    # Stage newly created / modified files
+    git status -s | cut -f3 -d' ' | xargs git add
 }
 
 
