@@ -17,6 +17,13 @@ for model_dir in ./models/*; do
 done
 """
 
+[tasks.gen_models_stls]
+script = """
+for model_dir in ./models/*; do
+  cargo make --cwd "${model_dir}" gen_stls
+done
+"""
+
 [tasks.update_readme_models_table]
 script = "./utils/gen_models_md_table.py ./models | ./utils/replace_md_file_section.py ./README.md 'Models'"
 

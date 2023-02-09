@@ -8,5 +8,11 @@ mkdir -p ./images
 ../../utils/gen_model_image.sh ./main.scad ./images/main.png
 """
 
+[tasks.gen_stls]
+script = """
+mkdir -p ./build
+../../utils/gen_model_stl.sh ./main.scad ./build/main.stl
+"""
+
 [tasks.watch]
 script = "../../utils/watch_in_openscad.sh ./main.scad"

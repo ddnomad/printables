@@ -1,0 +1,6 @@
+# Build artefacts directories
+build/
+
+# OS temporary files
+.DS_Store
+*.swp
