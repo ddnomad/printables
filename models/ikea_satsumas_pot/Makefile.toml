@@ -2,9 +2,9 @@
 skip_core_tasks = true
 unstable_features = ["CTRL_C_HANDLING"]
 
-[tasks.gen_model_images]
+[tasks.gen_images]
 script = """
-mkdir -p "./images"
+mkdir -p ./images
 ../../utils/gen_model_image.sh ./main.scad ./images/main.png
 """
 
