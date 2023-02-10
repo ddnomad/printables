@@ -5,7 +5,8 @@ PROJECT_BASE_DIR="$(git rev-parse --show-toplevel)"
 readonly PROJECT_BASE_DIR
 
 readonly MODELS_DIR="${PROJECT_BASE_DIR}/models"
-readonly VALID_BRANCH_RE="^(main|(dev\/[0-9a-z_]{3,})|(release\/[0-9a-z_]{3,}\/v\d{1,}\.\d{1,}\.\d{1,}))$"
+readonly UTILS_DIR="${PROJECT_BASE_DIR}/utils"
+readonly VALID_BRANCH_RE="^(main|(dev\/[0-9a-z_]{3,})|(release\/[0-9a-z_]{3,}\/v[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}))$"
 
 
 function validate_branch_name {
@@ -25,15 +26,39 @@ function validate_branch_name {
 
     # Check whether development or release branch name corresponds to an existing model directory
     if [[ "${branch_name}" =~ (dev|release)/* ]]; then
-        local model_dir
-        model_dir="$(cut -f 2 -d '/' <<< "${branch_name}")"
+        local model_dir_name
+        model_dir_name="$(cut -f 2 -d '/' <<< "${branch_name}")"
 
-        if ! test -d "${MODELS_DIR}/${model_dir}"; then
+        local model_dir_path
+        model_dir_path="${MODELS_DIR}/${model_dir_name}"
+
+        if ! test -d "${model_dir_path}"; then
             >&2 echo "Error: Invalid branch name: ${branch_name}"
             >&2 echo
             >&2 echo "Development or release branch names must conform to the following format:"
             >&2 echo
             >&2 echo -e "(dev|release)/<EXISTING_MODEL_DIR>/vX.X.X"
+
+            exit 1
+        fi
+
+        local version
+        version="$(cut -f 3 -d '/' <<< "${branch_name}")"
+
+        local changelog_file_path
+        changelog_file_path="${model_dir_path}/CHANGELOG.md"
+
+        local changelog
+        changelog="$("${UTILS_DIR}/get_changelog_section.sh" "${changelog_file_path}" "${version}")"
+
+        if test -z "${changelog}"; then
+            >&2 echo "Error: Invalid branch name: ${branch_name}"
+            >&2 echo
+            >&2 echo "Failed to find a changelog entry for version ${version} in the changelog file:"
+            >&2 echo "${changelog_file_path}"
+            >&2 echo
+            >&2 echo 'Releases must have a changelog section that matches a release version'
+            >&2 echo 'specified in the branch name.'
 
             exit 1
         fi
