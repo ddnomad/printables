@@ -3,6 +3,7 @@ Printables Monorepo
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/ddnomad/printables)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ddnomad/printables)
+![GitHub release workflow status](https://img.shields.io/github/actions/workflow/status/ddnomad/printables/release.yml)
 
 This repository contains various models for 3D printing created using [OpenSCAD](https://openscad.org).
 
