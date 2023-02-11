@@ -4,7 +4,6 @@ unstable_features = ["CTRL_C_HANDLING"]
 
 [tasks.init_git_hooks]
 script = """
-# NOTE: Tim Apple cognitive tax
 LN=ln; if command -v gln &> /dev/null; then LN=gln; fi
 
 "${LN}" -srf ./.hooks/pre-commit ./.git/hooks/pre-commit
