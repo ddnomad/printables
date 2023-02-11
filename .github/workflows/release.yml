@@ -15,13 +15,13 @@ jobs:
     name: Create OpenSCAD model release
     runs-on: ubuntu-latest
     steps:
-      - name: Install Rust
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/install_rustup.sh && \
-            bash -f /tmp/install_rustup.sh -y
-
       - name: Install Cargo Make
-        run: cargo install cargo-make
+        run: curl -L -o /tmp/cargo_make.zip \
+          https://github.com/sagiegurari/cargo-make/releases/download/0.36.4/cargo-make-v0.36.4-x86_64-unknown-linux-musl.zip && \
+          unzip -j -d /tmp/cargo_make /tmp/cargo_make.zip && \
+          sudo mv /tmp/cargo_make/makers /usr/bin/makers && \
+          sudo chown root:root /usr/bin/makers && \
+          sudo chmod +x /usr/bin/makers
 
       - name: Install OpenSCAD
         run: sudo apt-get install --yes openscad
@@ -54,7 +54,7 @@ jobs:
 
       - name: Render the model
         run: |
-          cargo make --cwd '${{ env.MODEL_NAME }}' gen_stls
+          makers --cwd '${{ env.MODEL_PATH }}' gen_stls
 
       - name: Create a release
         run: |
