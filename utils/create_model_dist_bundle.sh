@@ -4,6 +4,14 @@ set -euo pipefail
 SCRIPT_PATH="$(dirname "$0")"
 readonly SCRIPT_PATH
 
+SOURCE_CODE_TXT_TPL="$(cat <<EOF
+This model was designed and rendered in OpenSCAD and the source code is available on GitHub.
+
+Source code repository:
+EOF
+)"
+readonly SOURCE_CODE_TXT_TPL
+
 
 function main {
     if test "$#" -ne 2; then
@@ -46,6 +54,11 @@ function main {
     cp "${model_dir_path}"/CHANGELOG.md "${archive_root_dir_name}"
     cp "${model_dir_path}"/README.md "${archive_root_dir_name}"
     cp "${SCRIPT_PATH}"/../LICENSE "${archive_root_dir_name}"
+
+    local repo_url
+    repo_url="$(git remote show origin -n | sed -n 's@.*: git.*:\(.*\).git$@https://github.com/\1@p' | head -n 1)"
+
+    echo -e "${SOURCE_CODE_TXT_TPL}\n${repo_url}" > "${archive_root_dir_name}/SOURCE_CODE_URL.txt"
 
     local abs_output_file_path
     abs_output_file_path="$(realpath "${output_file_path}")"
