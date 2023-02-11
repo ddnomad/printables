@@ -43,18 +43,23 @@ jobs:
             cut -f3 -d'/' | \
             xargs -I{} echo MODEL_RELEASE_VERSION='{}' >> "${GITHUB_ENV}"
 
+      - name: Extract model path
+        run: |
+          echo 'MODEL_PATH=${{ github.workspace }}/models/${{ env.MODEL_NAME }}' >> "${GITHUB_ENV}"
+
       - name: Extract model release changelog
         run: |
-          ${{ github.workspace }}/utils/get_changelog_section.sh | \
+          '${{ github.workspace }}/utils/get_changelog_section.sh' '${{ env.MODEL_PATH }}/CHANGELOG.md' | \
             xargs -I{} echo MODEL_RELEASE_CHANGELOG_BASE64='{}' >> "${GITHUB_ENV}"
 
       - name: Render the model
         run: |
-          cargo make --cwd "${{ github.workspace }}/models/${{ env.MODEL_NAME }}" gen_stls
+          cargo make --cwd '${{ env.MODEL_NAME }}' gen_stls
 
       - name: Create a release
         run: |
-          "${{ github.workspace }}"/utils/create_model_github_release.sh \
-            "${{ github.workspace }}/${{ env.MODEL_NAME }}" \
-            "${{ env.MODEL_NAME }}" \
-            "${{ env.MODEL_RELEASE_VERSION }}"
+          '${{ github.workspace }}/utils/create_model_github_release.sh' \
+            '${{ env.MODEL_PATH }}' \
+            '${{ env.MODEL_NAME }}' \
+            '${{ env.MODEL_RELEASE_VERSION }}' \
+            '${{ env.MODEL_RELEASE_CHANGELOG_BASE64 }}'
