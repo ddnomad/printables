@@ -51,6 +51,7 @@ jobs:
       - name: Extract model release changelog
         run: |
           '${{ github.workspace }}/utils/get_changelog_section.sh' '${{ env.MODEL_PATH }}/CHANGELOG.md' '${{ env.MODEL_RELEASE_VERSION }}' | \
+            base64 | \
             xargs -I{} echo MODEL_RELEASE_CHANGELOG_BASE64='{}' >> "${GITHUB_ENV}"
 
       - name: Render the model
