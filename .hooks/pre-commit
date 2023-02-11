@@ -73,7 +73,7 @@ function main {
     cargo make update_readme_models_table
 
     # Stage newly created / modified files
-    git status -s | cut -f3 -d' ' | xargs git add
+    git status -s | grep -v '^D.*' | cut -f3 -d' ' | xargs git add
 }
 
 

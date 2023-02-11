@@ -11,7 +11,7 @@ mkdir -p ./images
 [tasks.gen_stls]
 script = """
 mkdir -p ./build
-../../utils/gen_model_stl.sh ./main.scad ./build/main.stl
+../../utils/gen_model_stl.sh ./main.scad ./build/ikea_satsumas_pot.stl
 """
 
 [tasks.watch]
