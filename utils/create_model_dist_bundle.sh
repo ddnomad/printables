@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_PATH="$(dirname "$0")"
-readonly SCRIPT_PATH
-
 SOURCE_CODE_TXT_TPL="$(cat <<EOF
 This model was designed and rendered in OpenSCAD and the source code is available on GitHub.
 
@@ -53,7 +50,6 @@ function main {
 
     cp "${model_dir_path}"/CHANGELOG.md "${archive_root_dir_name}"/CHANGELOG.txt
     cp "${model_dir_path}"/README.md "${archive_root_dir_name}"/README.txt
-    cp "${SCRIPT_PATH}"/../LICENSE "${archive_root_dir_name}"/LICENSE.txt
 
     local repo_url
     repo_url="$(git remote show origin -n | sed -n 's@.*: git.*:\(.*\).git$@https://github.com/\1@p' | head -n 1)"
