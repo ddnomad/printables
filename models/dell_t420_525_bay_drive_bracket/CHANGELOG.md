@@ -4,7 +4,7 @@ Changelog
 v0.1.2
 ------
 
-Even more improved version as tolerances in v0.1.1 turned out to be either a bit too tight (bracket width) or too loose (drive mounting walls). This version was test printed multiple times and is fully ready to be used as intended.
+A fully usable version of the model with correct tolerances. The model was test printed and test fitted multiple times to ensure the right fit.
 
 ### Fixes
 

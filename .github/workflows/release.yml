@@ -54,7 +54,8 @@ jobs:
 
       - name: Create a release
         run: |
-          '${{ github.workspace }}/utils/create_model_github_release.sh' \
+          '${{ github.workspace }}/utils/create_model_release.sh' \
             '${{ env.MODEL_PATH }}' \
             '${{ env.MODEL_NAME }}' \
-            '${{ env.MODEL_RELEASE_VERSION }}'
+            '${{ env.MODEL_RELEASE_VERSION }}' \
+            '${{ github.ref_name }}'

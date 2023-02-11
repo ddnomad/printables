@@ -11,7 +11,7 @@ mkdir -p ./images
 [tasks.gen_stls]
 script = """
 mkdir -p ./build
-../../utils/gen_model_stl.sh ./main.scad ./build/main.stl
+../../utils/gen_model_stl.sh ./main.scad ./build/dell_t420_525_bay_drive_bracket.stl
 """
 
 [tasks.watch]
