@@ -51,9 +51,9 @@ function main {
 
     cp "${model_dir_path}"/build/* "${archive_root_dir_name}"
 
-    cp "${model_dir_path}"/CHANGELOG.md "${archive_root_dir_name}"
-    cp "${model_dir_path}"/README.md "${archive_root_dir_name}"
-    cp "${SCRIPT_PATH}"/../LICENSE "${archive_root_dir_name}"
+    cp "${model_dir_path}"/CHANGELOG.md "${archive_root_dir_name}"/CHANGELOG.txt
+    cp "${model_dir_path}"/README.md "${archive_root_dir_name}"/README.txt
+    cp "${SCRIPT_PATH}"/../LICENSE "${archive_root_dir_name}"/LICENSE.txt
 
     local repo_url
     repo_url="$(git remote show origin -n | sed -n 's@.*: git.*:\(.*\).git$@https://github.com/\1@p' | head -n 1)"
@@ -63,7 +63,7 @@ function main {
     local abs_output_file_path
     abs_output_file_path="$(realpath "${output_file_path}")"
 
-    cd "${temp_dir_path}" && zip -r "${abs_output_file_path}" ./* && cd - &>/dev/null
+    cd "${temp_dir_path}" && zip -FSr "${abs_output_file_path}" ./* && cd - &>/dev/null
     >&2 echo "---(+) DONE: Created distribution bundle: ${output_file_path}"
 
     rm -r "${temp_dir_path}"
