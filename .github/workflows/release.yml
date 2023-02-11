@@ -24,7 +24,7 @@ jobs:
         run: cargo install cargo-make
 
       - name: Install OpenSCAD
-        run: apt-get install --yes openscad
+        run: sudo apt-get install --yes openscad
 
       - name: Checkout repository
         uses: actions/checkout@v3
