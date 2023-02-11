@@ -16,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Cargo Make
-        run: curl -L -o /tmp/cargo_make.zip \
+        run: |
+          curl -L -o /tmp/cargo_make.zip \
           https://github.com/sagiegurari/cargo-make/releases/download/0.36.4/cargo-make-v0.36.4-x86_64-unknown-linux-musl.zip && \
           unzip -j -d /tmp/cargo_make /tmp/cargo_make.zip && \
           sudo mv /tmp/cargo_make/makers /usr/bin/makers && \
