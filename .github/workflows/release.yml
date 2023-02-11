@@ -10,6 +10,9 @@ on:
 permissions:
   contents: write
 
+env:
+  GH_TOKEN: ${{ github.token }}
+
 jobs:
   create-openscad-model-release:
     name: Create OpenSCAD model release
