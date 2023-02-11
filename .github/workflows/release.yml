@@ -1,5 +1,5 @@
 ---
-name: create-openscad-model-release
+name: Create OpenSCAD model release
 run-name: Create OpenSCAD model release from ${{ github.ref_name }} branch
 
 on:
