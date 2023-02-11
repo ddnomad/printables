@@ -2,6 +2,20 @@
 skip_core_tasks = true
 unstable_features = ["CTRL_C_HANDLING"]
 
+[env]
+MODEL_NAME = "dell_t420_525_bay_drive_bracket"
+VERSION = { script = ["""
+SED=sed; if command -v gsed &> /dev/null; then SED=gsed; fi
+echo "v$("${SED}" -n 's@^ *MODEL_VERSION *= *"\\([0-9]\\(\\.[0-9]\\)*\\)"; *$@\\1@p' ./main.scad)"
+"""] }
+
+[tasks.gen_dist]
+condition = { env_set = [ "MODEL_NAME", "VERSION" ] }
+script = """
+mkdir -p ./dist
+../../utils/create_model_dist_bundle.sh . ./dist/"${MODEL_NAME}"_"${VERSION}".zip
+"""
+
 [tasks.gen_images]
 script = """
 mkdir -p ./images
@@ -9,12 +23,10 @@ mkdir -p ./images
 """
 
 [tasks.gen_stls]
+condition = { env_set = [ "MODEL_NAME", "VERSION" ] }
 script = """
-SED=sed; if command -v gsed &> /dev/null; then SED=gsed; fi
-VERSION="v$("${SED}" -n 's@^ *MODEL_VERSION *= *"\\([0-9]\\(\\.[0-9]\\)*\\)"; *$@\\1@p' ./main.scad)"
-
 mkdir -p ./build
-../../utils/gen_model_stl.sh ./main.scad ./build/dell_t420_525_bay_drive_bracket_"${VERSION}".stl
+../../utils/gen_model_stl.sh ./main.scad ./build/"${MODEL_NAME}"_"${VERSION}".stl
 """
 
 [tasks.watch]
