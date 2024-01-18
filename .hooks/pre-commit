@@ -5,7 +5,7 @@ PROJECT_BASE_DIR="$(git rev-parse --show-toplevel)"
 readonly PROJECT_BASE_DIR
 
 readonly MODELS_DIR="${PROJECT_BASE_DIR}/models"
-readonly UTILS_DIR="${PROJECT_BASE_DIR}/utils"
+readonly SCRIPTS_DIR="${PROJECT_BASE_DIR}/scripts"
 readonly VALID_BRANCH_RE="^(main|(dev\/[0-9a-z_]{3,})|(release\/[0-9a-z_]{3,}\/v[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}))$"
 
 
@@ -49,7 +49,7 @@ function validate_branch_name {
         changelog_file_path="${model_dir_path}/CHANGELOG.md"
 
         local changelog
-        changelog="$("${UTILS_DIR}/get_changelog_section.sh" "${changelog_file_path}" "${version}")"
+        changelog="$("${SCRIPTS_DIR}/get_changelog_section.sh" "${changelog_file_path}" "${version}")"
 
         if test -z "${changelog}"; then
             >&2 echo "Error: Invalid branch name: ${branch_name}"
@@ -73,7 +73,8 @@ function main {
     cargo make update_readme_models_table
 
     # Stage newly created / modified files
-    git status -s | grep -v '^D.*' | cut -f3 -d' ' | xargs git add
+    git status -s | grep -v '^[DR].*' | cut -f3 -d' ' | xargs git add
+    git status -s | grep '^R.*' | cut -f2 -d'>' | xargs git add || :
 }
 
 

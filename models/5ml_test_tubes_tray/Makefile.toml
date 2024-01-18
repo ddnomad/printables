@@ -3,7 +3,7 @@ skip_core_tasks = true
 unstable_features = ["CTRL_C_HANDLING"]
 
 [env]
-MODEL_NAME = "ikea_satsumas_pot"
+MODEL_NAME = "5ml_test_tubes_tray"
 VERSION = { script = ["""
 SED=sed; if command -v gsed &> /dev/null; then SED=gsed; fi
 echo "v$("${SED}" -n 's@^ *MODEL_VERSION *= *"\\([0-9]\\(\\.[0-9]\\)*\\)"; *$@\\1@p' ./main.scad)"

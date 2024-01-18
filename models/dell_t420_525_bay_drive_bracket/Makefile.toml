@@ -13,21 +13,21 @@ echo "v$("${SED}" -n 's@^ *MODEL_VERSION *= *"\\([0-9]\\(\\.[0-9]\\)*\\)"; *$@\\
 condition = { env_set = [ "MODEL_NAME", "VERSION" ] }
 script = """
 mkdir -p ./dist
-../../utils/create_model_dist_bundle.sh . ./dist/"${MODEL_NAME}"_"${VERSION}".zip
+../../scripts/create_model_dist_bundle.sh . ./dist/"${MODEL_NAME}"_"${VERSION}".zip
 """
 
 [tasks.gen_images]
 script = """
 mkdir -p ./images
-../../utils/gen_model_image.sh ./main.scad ./images/main.png
+../../scripts/gen_model_image.sh ./main.scad ./images/main.png
 """
 
 [tasks.gen_stls]
 condition = { env_set = [ "MODEL_NAME", "VERSION" ] }
 script = """
 mkdir -p ./build
-../../utils/gen_model_stl.sh ./main.scad ./build/"${MODEL_NAME}"_"${VERSION}".stl
+../../scripts/gen_model_stl.sh ./main.scad ./build/"${MODEL_NAME}"_"${VERSION}".stl
 """
 
 [tasks.watch]
-script = "../../utils/watch_in_openscad.sh ./main.scad"
+script = "../../scripts/watch_in_openscad.sh ./main.scad"

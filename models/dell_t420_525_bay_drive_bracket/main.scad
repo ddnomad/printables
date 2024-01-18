@@ -1,8 +1,8 @@
-use <../../lib/ddscad/circular.scad>
-use <../../lib/ddscad/rounding.scad>
-use <../../lib/ddscad/screw_holes.scad>
+use <../../lib/utils/circular.scad>
+use <../../lib/utils/rounding.scad>
+use <../../lib/utils/screw_holes.scad>
 
-include <../../lib/ddscad/drive.scad>
+include <../../lib/utils/drive.scad>
 
 $fn = $preview? 32 : 128;
 
