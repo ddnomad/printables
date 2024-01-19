@@ -74,7 +74,7 @@ function main {
 
     # Stage newly created / modified files
     git status -s | grep -v '^[DR].*' | cut -f3 -d' ' | xargs git add
-    git status -s | grep '^R.*' | cut -f2 -d'>' | xargs git add || :
+    git status -s | grep '^R.*' | cut -f2 -d'>' | xargs git add &> /dev/null || :
 }
 
 
